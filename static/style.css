@@ -1,0 +1,85 @@
+@import url("https://fonts.googleapis.com/css2?family=Hind:wght@700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Gloock&family=Hind&display=swap");
+nav ul li a, .logo {
+  font-family: "Hind", sans-serif;
+  text-decoration: none;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Times New Roman", Times, serif;
+  background: #ffffaa;
+}
+
+nav {
+  margin: 0;
+  background: #E15927;
+  height: 80px;
+  width: 100%;
+  position: fixed;
+}
+
+.title1 {
+  color: white;
+  font-size: 35px;
+  line-height: 70px;
+  padding: 0 100px;
+  font-weight: bold;
+  text-align: center;
+}
+
+h1 {
+  font-family: "Gloock", serif;
+  font-size: 2rem;
+  margin: 0;
+  padding-top: 40px;
+}
+
+section {
+  float: right;
+  width: 75%;
+  padding-top: 100px;
+  min-height: 610px;
+  font-family: "Ubuntu", sans-serif;
+  font-size: 1rem;
+  background: #FAEBD7;
+  border-color: black;
+}
+
+#titulos {
+  font-family: "Karla", sans-serif;
+  font-size: 1rem;
+}
+
+.clear {
+  display: fixed;
+  clear: both;
+}
+
+
+aside {
+  background: #FFE4C4;
+  padding-top: 100px;
+  float: right;
+  width: 25%;
+  height: 100%;
+  min-height: 650px;
+  padding-right: 10px;
+  
+}
+
+#footer-zone { 
+  height: 50px; 
+  
+  width:75%; 
+  position:absolute; 
+  bottom:0; 
+  right:0; 
+  float: right;
+}
