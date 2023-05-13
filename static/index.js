@@ -27,23 +27,26 @@ document.addEventListener("DOMContentLoaded",() =>{
         joinButton.innerText = "Unirse";
 
         joinButton.onclick = () => {
-          const roomName = roomElement.innerText.split(" ")[1];
-          console.log(roomName)
+          const roomName = roomElement.textContent.slice(0, -11); // Obtener directamente el nombre del elemento
+          console.log(roomName);
           socket.emit("join_room", roomName, () => {
             document.querySelector("#root").innerHTML = `Te has unido a la sala ${roomName}`;
+            document.querySelector(".title1").innerHTML = `ChatZone-${roomName}`;
             console.log(`Unido a la sala ${roomName}`);
           });
           
-          // Emitir evento para solicitar los últimos 100 mensajes
-          socket.emit("get_last_messages", {room: roomName}, (messages) => {
-              // Agregar mensajes a la interfaz de usuario
-              messages.forEach((message) => {
-                  // Agregar mensaje a la interfaz de usuario
-                  document.querySelector("#root").innerHTML = ` ${message}`;
-              });
+          socket.emit("get_last_messages", {room_name: roomName}, (messages) => {
+            // Agregar mensajes a la interfaz de usuario
+            messages.forEach((message) => {
+              // Agregar mensaje a la interfaz de usuario
+              const messageElement = document.createElement("div");
+              messageElement.innerHTML = `<strong>${message.username}:</strong> ${message.message}`;
+              document.querySelector("#root").appendChild(messageElement);
+              document.querySelector("#root").innerHTML += "<br>";
+            });
           });
-      };
-        
+        };
+
         roomElement.appendChild(joinButton);
       
         const leaveButton = document.createElement("button");
@@ -53,7 +56,7 @@ document.addEventListener("DOMContentLoaded",() =>{
           socket.emit("leave_room", NombreSala, () => {
             if (NombreSala) {
               console.log(`Abandonó la sala ${NombreSala}`);
-              roomList.removeChild(roomElement);
+              document.querySelector("#root").innerHTML = `ha salido  de la sala` ;
               document.querySelector(".title1").innerHTML = `ChatZone`;
             } else {
               console.log(`No se pudo abandonar la sala ${NombreSala}`);
@@ -71,22 +74,33 @@ document.addEventListener("DOMContentLoaded",() =>{
   
 
 
-    socket.on("message", (mensaje) =>{
-        document.querySelector("#root").append(mensaje);
-        document.querySelector("#root").innerHTML += "</br>";
+    socket.on("message", (data) => {
+      const message = data.message;
+      const username = data.username;
+      console.log(username)
+      const messageElement = document.createElement("div");
+      messageElement.innerHTML = `<strong>${username}:</strong> ${message}`;
+      document.querySelector("#root").appendChild(messageElement);
+      document.querySelector("#root").innerHTML += "<br>";
     });
-    
     const send_message = document.querySelector("#send-message");
-    
-    send_message.onclick  = () =>{
-        const message = document.querySelector("#input-message").value;
-        socket.emit("message",{
-            message,
-            room: room
-        });
-    
-        const mensaje = document.querySelector("#input-message");
-        mensaje.value= "";
+  
+    send_message.onclick = () => {
+      const message = document.querySelector("#input-message").value;
+      socket.emit("message", {
+        message,
+        room: room,
+      });
+  
+      const mensaje = document.querySelector("#input-message");
+      mensaje.value = "";
     }
-    
-} )
+  });
+
+  
+  
+  
+  
+  
+  
+  

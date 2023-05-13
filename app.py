@@ -26,18 +26,19 @@ def nombreusuario():
 @socketio.on("message")
 def message(data):
     room = data['room']
-    message = {
-        'username': session['username'],
-        'text': data['message'] 
-        }
-    if room not in messages:
-        messages[room] = []
-    messages[room].append(message)
-    # Limit the number of messages to 100
+    message = data['message']
+    username = session['username']
+    emit("message", {'message': message, 'username': username}, room=room, broadcast=False, include_self=True)
+
+    # Almacenar el mensaje en la lista de mensajes del canal correspondiente
+    if room in messages:
+        messages[room].append({'message': message, 'username': username})
+    else:
+        messages[room] = [{'message': message, 'username': username}]
+
+    # Mantener solo los últimos 100 mensajes en la lista
     if len(messages[room]) > 100:
         messages[room] = messages[room][-100:]
-    emit("message", message, room=room, broadcast=False, include_self=True)
-
 
 @socketio.on("create_room")
 def create_room(room_name):
@@ -65,7 +66,6 @@ def leave_room_function(room_name):
     leave_room(room_name)
     if session['username'] in chat_rooms[room_name]:
         emit("message", f"{session['username']} ha salido de la sala {room_name}.", room=room_name)
-        chat_rooms[room_name].remove(session['username'])
         emit("leave_room", chat_rooms, broadcast=True, include_self=True)
     
 
