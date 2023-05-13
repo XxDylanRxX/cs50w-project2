@@ -1,6 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, request, session
 from flask_socketio import SocketIO, send, emit, join_room, leave_room
 from flask_session import Session
+from datetime import datetime
 
 app = Flask(__name__)
 app.config['SESSION_TYPE'] = 'filesystem'
@@ -27,14 +28,15 @@ def nombreusuario():
 def message(data):
     room = data['room']
     message = data['message']
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S") 
     username = session['username']
-    emit("message", {'message': message, 'username': username}, room=room, broadcast=False, include_self=True)
+    emit("message", {'message': message, 'username': username, 'timestamp': timestamp}, room=room, broadcast=False, include_self=True)
 
     # Almacenar el mensaje en la lista de mensajes del canal correspondiente
     if room in messages:
-        messages[room].append({'message': message, 'username': username})
+        messages[room].append({'message': message, 'username': username, 'timestamp': timestamp})
     else:
-        messages[room] = [{'message': message, 'username': username}]
+        messages[room] = [{'message': message, 'username': username, 'timestamp': timestamp}]
 
     # Mantener solo los últimos 100 mensajes en la lista
     if len(messages[room]) > 100:

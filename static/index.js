@@ -77,9 +77,10 @@ document.addEventListener("DOMContentLoaded",() =>{
     socket.on("message", (data) => {
       const message = data.message;
       const username = data.username;
+      const time = data.timestamp;
       console.log(username)
       const messageElement = document.createElement("div");
-      messageElement.innerHTML = `<strong>${username}:</strong> ${message}`;
+      messageElement.innerHTML = `<strong>${username} (${time}):</strong> ${message}`;
       document.querySelector("#root").appendChild(messageElement);
       document.querySelector("#root").innerHTML += "<br>";
     });
