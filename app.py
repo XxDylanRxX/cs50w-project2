@@ -28,48 +28,63 @@ def nombreusuario():
 def message(data):
     room = data['room']
     message = data['message']
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S") 
-    username = session['username']
-    emit("message", {'message': message, 'username': username, 'timestamp': timestamp}, room=room, broadcast=False, include_self=True)
+    if message.strip():
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        username = session['username']
+        emit("message", {'message': message, 'username': username, 'timestamp': timestamp}, room=room, broadcast=False, include_self=True)
+        is_user = username == session['username']
+        if room in messages:
+            messages[room].append({'message': message, 'username': username, 'timestamp': timestamp, 'is_user': is_user})
+        else:
+            messages[room] = [{'message': message, 'username': username, 'timestamp': timestamp, 'is_user': is_user}]
+        if len(messages[room]) > 100:
+            messages[room] = messages[room][-100:]
 
-    # Almacenar el mensaje en la lista de mensajes del canal correspondiente
-    if room in messages:
-        messages[room].append({'message': message, 'username': username, 'timestamp': timestamp})
-    else:
-        messages[room] = [{'message': message, 'username': username, 'timestamp': timestamp}]
 
-    # Mantener solo los últimos 100 mensajes en la lista
-    if len(messages[room]) > 100:
-        messages[room] = messages[room][-100:]
-
+            
 @socketio.on("create_room")
 def create_room(room_name):
     chat_rooms[room_name] = []
     join_room(room_name)
     emit("room_list", list(chat_rooms.keys()), broadcast=True)
-    emit("message", f"Te has unido a la sala {room_name}.", room=room_name)
     return room_name
+
+
 
 @socketio.on("join_room")
 def join_chat_room(room_name):
     join_room(room_name)
-    chat_rooms[room_name].append(session['username'])
-    emit("message", f"{session['username']} se ha unido a la sala {room_name}.", room=room_name)
-    emit("update_rooms", chat_rooms, broadcast=True, include_self=True)
+    if 'username' in session and session['username'] not in chat_rooms[room_name]:
+        chat_rooms[room_name].append(session['username'])
+        print(chat_rooms)
+        emit("inform", f"{session['username']} se ha unido a la sala {room_name}.", room=room_name)
+        emit("inform", chat_rooms, broadcast=True, include_self=True)
+        
 
-@socketio.on("get_last_messages")
+@socketio.on("actualizar")
 def get_last_messages(data):
     room_name = data['room_name']
-    emit("last_messages", messages[room_name][-100:], include_self=True)
+    print(room_name)
+    emit("last_messages1", messages[room_name][-100:], include_self=True)
 
+@socketio.on("ingresar")
+def get_last_messages(data):
+    room_name = data['room_name']
+    print(room_name)
+    emit("last_messages2", messages[room_name][-100:], include_self=True)
+
+@socketio.on("join")
+def get_last_messages(data):
+    room_name = data['room_name']
+    print(room_name)
+    emit("last_messages3", messages[room_name][-100:], include_self=True)
 
 @socketio.on("leave_room")
 def leave_room_function(room_name):
     leave_room(room_name)
-    if session['username'] in chat_rooms[room_name]:
-        emit("message", f"{session['username']} ha salido de la sala {room_name}.", room=room_name)
+    if 'username' in session and room_name in chat_rooms and session['username'] in chat_rooms[room_name]:
         emit("leave_room", chat_rooms, broadcast=True, include_self=True)
-    
+
 
 if __name__ == "__main__":
     app.run(debug=True)

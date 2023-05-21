@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Hind:wght@700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Gloock&family=Hind&display=swap");
+
 nav ul li a, .logo {
   font-family: "Hind", sans-serif;
   text-decoration: none;
@@ -15,6 +16,11 @@ nav ul li a, .logo {
 body {
   font-family: "Times New Roman", Times, serif;
   background: #ffffaa;
+}
+
+body.dark-mode {
+  background-color: #1a1a1a;
+  color: #fff;
 }
 
 nav {
@@ -52,6 +58,11 @@ section {
   border-color: black;
 }
 
+section.dark-mode {
+  background-color: #333;
+  color: #fff;
+}
+
 #titulos {
   font-family: "Karla", sans-serif;
   font-size: 1rem;
@@ -62,7 +73,6 @@ section {
   clear: both;
 }
 
-
 aside {
   background: #FFE4C4;
   padding-top: 100px;
@@ -71,15 +81,65 @@ aside {
   height: 100%;
   min-height: 650px;
   padding-right: 10px;
-  
 }
 
-#footer-zone { 
-  height: 50px; 
-  
-  width:75%; 
-  position:absolute; 
-  bottom:0; 
-  right:0; 
+aside.dark-mode {
+  background-color: #1a1a1a;
+  color: #fff;
+}
+
+#footer-zone {
+  height: 50px;
+  width: 75%;
+  position: absolute;
+  bottom: 0;
+  right: 0;
   float: right;
+}
+
+#mensaje23 {
+  position: fixed;
+  width: 75%;
+}
+
+.button-style {
+  background-color: #3498db;
+  color: #fff;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+.button-style:hover {
+  background-color: #2980b9;
+}
+
+.button-style:active {
+  background-color: #1e6381;
+}
+
+.inp {
+  width: 200px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin: 10px;
+}
+
+.message {
+  margin-bottom: 5px;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.message.dark-mode {
+  background-color: #333;
+  color: #fff;
+}
+
+.dark-mode2 {
+  background-color: #494343;
+  color: #fff;
 }

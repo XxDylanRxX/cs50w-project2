@@ -13,34 +13,30 @@
 </head>
 
 <body>
-
     <nav>
        <h2 class="title1">ChatZone</h2>
-       
     </nav>
 
     <section id="contenido">
-    <div id="root"></div>
-    <div id="footer-zone">
-        <form action="">
-            <div class="input-group mb-3">
-                <input id="input-message" type="text" class="form-control" placeholder="Recipient's username" aria-label="Escribe un mensaje" aria-describedby="button-addon2" >
-                <button id="send-message" class="btn btn-outline-secondary" type="button" id="button-addon2" >Enviar</button>
-              </div>
-        </form>
-    
-
+        <div id="root"></div>
+        <div id="footer-zone">
+            <form action="">
+                <div class="input-group mb-3" id="mensaje23">
+                    <input id="input-message" type="text" class="form-control" placeholder="Recipient's username" aria-label="Escribe un mensaje" aria-describedby="button-addon2" >
+                    <button id="send-message" class="btn btn-outline-secondary" type="button" id="button-addon2">Enviar</button>
+                    <button id="dark-mode-button" type="button">Modo oscuro</button>
+                </div>
+            </form>
+        </div>
     </section>
 
     <aside>
-            <label for="name_room">Nombre de la sala:</label>
-            <input type="text" id="room-name">
-            <button id="joinBtn" type="button">Join</button>
-        <div id="rooms-list">
-             
-        </div>
-        
+        <label for="name_room">Nombre de la sala:</label>
+        <input type="text" id="room-name" class="inp">
+        <button id="joinBtn" class="button-style" type="button">Join</button>
+        <div id="rooms-list"></div>
     </aside>
+
     <script src="/static/socket.io.min.js"></script>
     <script src="/static/index.js"></script>
 </body>
