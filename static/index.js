@@ -144,7 +144,7 @@ document.addEventListener("DOMContentLoaded", () => {
         joinButton.innerText = "Unirse";
         joinButton.classList.add("button-style");
         joinButton.onclick = () => {
-          const roomName = roomElement.textContent.slice(0, -19); // Obtener directamente el nombre del elemento
+          const roomName = roomElement.textContent.slice(0, -19); 
           console.log(roomName);
           socket.emit("join_room", roomName, () => {
             document.querySelector("#root").innerHTML = `Te has unido a la sala ${roomName}`;
@@ -198,17 +198,15 @@ document.addEventListener("DOMContentLoaded", () => {
         roomNameInput.value = "";
       });
     } else {
-      console.log("La sala ya existe");
+      alert("La sala ya existe");
       return;
     }
   };
 });
 
-// Función para manejar los últimos mensajes
 function handleLastMessages(messages) {
   const messageContainer = document.querySelector("#root");
 
-  // Eliminar los mensajes anteriores
   while (messageContainer.firstChild) {
     messageContainer.firstChild.remove();
   }
