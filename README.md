@@ -12,7 +12,7 @@ ChatZone es una aplicación de chat en tiempo real desarrollada con Node.js, Exp
 
 ## Requisitos previos
 
-- Node.js instalado en el sistema.
+- flask instalado en el sistema.
 
 ## Instalación
 
