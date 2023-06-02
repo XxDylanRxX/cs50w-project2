@@ -15,12 +15,16 @@ messages = {}
 def nombreusuario():
     if 'username' in session:
         return render_template('index.html', chat_rooms=chat_rooms)
+
     if request.method == 'POST':
         username = request.form.get("username")
-        print(username)
-        session['username'] = username
-        print(session['username'])
-        return render_template('index.html', chat_rooms=chat_rooms)
+        if not username:
+            return "Ingresa el nombre de usuario"
+        else:
+            print(username)
+            session['username'] = username
+            print(session['username'])
+            return render_template('index.html', chat_rooms=chat_rooms)
     return render_template('nickname.html')
 
 
